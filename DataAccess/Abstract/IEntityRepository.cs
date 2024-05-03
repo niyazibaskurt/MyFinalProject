@@ -12,7 +12,7 @@ namespace DataAccess.Abstract
     // Generic Repository Design Pattern kullanımı. Tüm entityleri (product,category..) ayrı ayrı yazmamak için Generic Repo oluşturuldu.
     // generic constraint - generic kısıt -> where T:class 
     // class: Referans tip
-    // IEntity: T referans tip olacak ya IEntity olacak veya onu implemente classlardan biri olacak
+    // IEntity: T referans tip olacak ya IEntity olacak veya onu implemente eden classlardan biri olacak
     // new () : new'lenebilir olmalı. Burda amaç sadece IEntity implemente eden classların kullanılmasına izin verme
 
     public interface IEntityRepository<T> where T : class, IEntity, new()
