@@ -1,5 +1,4 @@
-﻿using Entities.Abstract;
-using Entities.Concrete;
+﻿using Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Abstract
+namespace Core.DataAccess
 {
     // Generic Repository Design Pattern kullanımı. Tüm entityleri (product,category..) ayrı ayrı yazmamak için Generic Repo oluşturuldu.
     // generic constraint - generic kısıt -> where T:class 
@@ -31,4 +30,3 @@ namespace DataAccess.Abstract
 
     }
 }
- 
