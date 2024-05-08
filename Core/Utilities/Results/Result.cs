@@ -9,6 +9,7 @@ namespace Core.Utilities.Results
     public class Result : IResult
     {
         //Bu alanlar getter yani read only dir. Fakat constructur içerisinde set edilebilir bunun dışında set edilemez.
+        //Bu Result void ,aynı zamanda burda data yok.
 
         public Result(bool success, string message) : this(success)
         {
