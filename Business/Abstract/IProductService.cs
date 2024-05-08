@@ -1,4 +1,5 @@
-﻿using Entities.Concrete;
+﻿using Core.Utilities.Results;
+using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,10 @@ namespace Business.Abstract
         List<Product> GetByUnitPrice(decimal min, decimal max);
 
         List<ProductDetailDto> GetProductDetails();
+
+        Product GetById(int productId);
+
+        //Alt kısım void idi IResult yaptım. Sonuç ve sonuç mesajını gösterebilmek için imza oluşturdum. 
+        IResult Add(Product product);
     }
 }
