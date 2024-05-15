@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Business.Constants
 {
     //Temel mesajlar burada
-    //Static metot olunca newlenmez Messages. uygulamada sabit static
+    //Static metot olunca newlenmez Messages. diyerek sabitleri çağırabiliriz.
 
     public static class Messages
     {
@@ -18,3 +18,4 @@ namespace Business.Constants
         public static string ProductsListed = "Ürünler listelendi";
     }
 }
+  
