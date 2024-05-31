@@ -23,5 +23,7 @@ namespace Business.Abstract
 
         //Alt kısım void idi IResult yaptım. Sonuç ve sonuç mesajını gösterebilmek için imza oluşturdum. 
         IResult Add(Product product);
+
+        IResult Update(Product product);
     }
 }
