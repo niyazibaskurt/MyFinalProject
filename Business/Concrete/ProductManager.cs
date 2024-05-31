@@ -4,6 +4,7 @@ using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.InMemory;
@@ -24,26 +25,28 @@ namespace Business.Concrete
         //DataAccess -> Concrete içerisindeki veriler kullanılacak fakat onların isimleri olmadan interfaceleri kullanılacak.
 
         IProductDal _productDal;
-        private const int MaxProductsPerCategory = 10;
+        ICategoryService _categoryService;
 
-        public ProductManager(IProductDal productDal)  //Bu kısım inmemoryde olur,entitiyde olur herşey olabilir o sebeple interface olarak kullanıldı.
+        public ProductManager(IProductDal productDal, ICategoryService categoryService)  //Bu kısım inmemoryde olur,entitiyde olur herşey olabilir o sebeple interface olarak kullanıldı.
         {
             _productDal = productDal;
+            _categoryService = categoryService;
         }
 
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
-            //business codes
+            IResult result = BusinessRules.Run(CheckIfProductNameExits(product.ProductName), CheckIfProductCountOfCategoryCorrect(product.CategoryId), CheckIfCategoryLimitExceded()
+              );
 
-            if (CheckIfProductCountOfCategoryCorrect(product.CategoryId).Success)
+            if (result != null)
             {
-                _productDal.Add(product);
-
-                return new SuccessResult(Messages.ProductAdded);
+                return result;
             }
 
-            return new ErrorResult();
+            _productDal.Add(product);
+
+            return new SuccessResult(Messages.ProductAdded);
 
         }
 
@@ -86,6 +89,7 @@ namespace Business.Concrete
 
         private IResult CheckIfProductCountOfCategoryCorrect(int categoryId)
         {
+            //Select count(*) from products where categoryId=1
             var result = _productDal.GetAll(p => p.CategoryId == categoryId).Count;
 
             if (result >= 15)
@@ -96,5 +100,33 @@ namespace Business.Concrete
             return new SuccessResult();
 
         }
+
+
+        private IResult CheckIfProductNameExits(string productName)
+        {
+            var result = _productDal.GetAll(p => p.ProductName == productName).Any();
+
+            if (result)
+            {
+                return new ErrorResult(Messages.ProductNameAlreadyExists);
+            }
+
+            return new SuccessResult();
+
+        }
+
+        private IResult CheckIfCategoryLimitExceded()
+        {
+            var result = _categoryService.GetAll();
+            if (result.Data.Count > 15)
+            {
+                return new ErrorResult(Messages.CategoryLimitExceded);
+
+            }
+
+            return new SuccessResult();
+        }
+
+
     }
 }
