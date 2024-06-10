@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Core.Utilities.Security.Encryption
 {
     //Hangi anahtar , hangi algoritma
-    public class SigningCredentialHelper
+    public class SigningCredentialsHelper
     {
         public static SigningCredentials CreateSigningCredentials(SecurityKey securityKey)
         {
